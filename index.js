@@ -12,12 +12,12 @@ const bodyParser = require("body-parser")
 const compression = require("compression")
 const fileUpload = require("express-fileupload")
 const { router } = require("./src/routes")
+const { FILE_UPLOAD_DIRECTORY } = require("./src/helpers")
 
 dotenv.config()
 
 const PORT = process.env.APP_PORT || 5000
 const DB_URI = process.env.DB_URI
-const UPLOAD_DIRECTORY = process.env.FOLDER || "uploads"
 
 /* Clustering the apllication */
 const numCPUs = cpus().length
@@ -46,7 +46,7 @@ if (cluster.isMaster) {
     app.use(nocache())
 
     /* Bind file upload directory */
-    app.use(`/${UPLOAD_DIRECTORY}`, express.static(`${UPLOAD_DIRECTORY}/`))
+    app.use(`/${FILE_UPLOAD_DIRECTORY}`, express.static(`${FILE_UPLOAD_DIRECTORY}/`))
 
     /* Register API routes */
     app.use("/api/v1/", router)
@@ -109,7 +109,7 @@ if (cluster.isMaster) {
         .catch(error => {
             if (error) {
                 console.log("Failed to connect database.")
-            console.log(error)
+                console.log(error)
             }
         })
 

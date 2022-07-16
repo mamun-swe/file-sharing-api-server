@@ -2,15 +2,15 @@
 const File = require("../models/file.model")
 const { validator } = require("../validators")
 const { currentHost } = require("../helpers")
-const { fileUpload } = require("../services/file.service")
+const { fileUpload, fileRemove } = require("../services/file.service")
 const { generatePublicKey, generatePrivateKey } = require("../services/key.service")
+const { FILE_UPLOAD_DIRECTORY } = require("../helpers")
 
 /* Get specific resource */
 const Index = async (req, res, next) => {
     try {
         let data = null
         const { publicKey } = req.params
-        const FILE_DIRECTORY = process.env.FOLDER || "uploads"
 
         /* file fetch from database */
         const result = await File.findOne(
@@ -22,10 +22,11 @@ const Index = async (req, res, next) => {
         if (result) {
             data = {
                 publicKey: result.publicKey,
-                download_url: currentHost(req) + FILE_DIRECTORY + "/" + result.filename
+                download_url: currentHost(req) + FILE_UPLOAD_DIRECTORY + "/" + result.filename
             }
         }
 
+        /* Send success response to user with data */
         res.status(200).json({
             status: true,
             data
@@ -93,7 +94,51 @@ const Store = async (req, res, next) => {
     }
 }
 
+/* Destroy specific resource */
+const Destroy = async (req, res, next) => {
+    try {
+        const { privateKey } = req.params
+
+        /* Fetch file info from database */
+        const result = await File.findOne({ privateKey })
+        if (!result) {
+            return res.status(404).json({
+                status: false,
+                errors: {
+                    message: "File not found."
+                }
+            })
+        }
+
+        /* Remove file from directory */
+        const isFileRemoved = fileRemove(result.filename)
+        if (!isFileRemoved) {
+            return res.status(501).json({
+                status: false,
+                errors: {
+                    message: "Failed to delete file."
+                }
+            })
+        }
+
+        /* Delete file info from server */
+        await File.findOneAndDelete({ privateKey })
+
+        /* Send success response to user */
+        res.status(200).json({
+            status: true,
+            message: "Successfully file deleted."
+        })
+    } catch (error) {
+        if (error) {
+            console.log(error)
+            next(error)
+        }
+    }
+}
+
 module.exports = {
     Index,
-    Store
+    Store,
+    Destroy
 }

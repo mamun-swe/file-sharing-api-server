@@ -1,15 +1,15 @@
 
 const fs = require("fs")
+const { FILE_UPLOAD_DIRECTORY } = require("../helpers")
 
 /* File upload to directory */
 const fileUpload = async (data) => {
     try {
         const file = data
-        const UPLOAD_DIRECTORY = process.env.FOLDER || "uploads"
 
         /* Create directory if not available */
-        if (!fs.existsSync(UPLOAD_DIRECTORY)) {
-            fs.mkdirSync(UPLOAD_DIRECTORY)
+        if (!fs.existsSync(FILE_UPLOAD_DIRECTORY)) {
+            fs.mkdirSync(FILE_UPLOAD_DIRECTORY)
         }
 
         /* Change file name to unique name */
@@ -17,7 +17,7 @@ const fileUpload = async (data) => {
         const renamedFile = Date.now() + '.' + fileExtension
 
         /* File upload path generate */
-        const uploadPath = UPLOAD_DIRECTORY + "/" + renamedFile
+        const uploadPath = FILE_UPLOAD_DIRECTORY + "/" + renamedFile
 
         /* Move file to directory */
         const moveFile = file.mv(uploadPath)
@@ -31,6 +31,22 @@ const fileUpload = async (data) => {
     }
 }
 
+/* File delete from directory */
+const fileRemove = async (data) => {
+
+    /* file destionation with file name */
+    const destination = FILE_UPLOAD_DIRECTORY + "/" + data
+
+    /* Delete file from destionation */
+    fs.unlink(destination, function (error) {
+        if (error) {
+            return false
+        }
+        return true
+    })
+}
+
 module.exports = {
-    fileUpload
+    fileUpload,
+    fileRemove
 }
