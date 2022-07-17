@@ -7,16 +7,20 @@ const currentHost = (req) => {
 /* File upload directory */
 const FILE_UPLOAD_DIRECTORY = process.env.FOLDER || "uploads"
 
-/* Daily file download limit */
-const DAILY_REQUEST_LIMIT = process.env.REQUEST_LIMIT || 5
+/* File download request limit */
+const DOWNLOAD_REQUEST_LIMIT = process.env.DOWNLOAD_REQUEST_LIMIT || 5
+
+/* File upload request limit */
+const UPLOAD_REQUEST_LIMIT = process.env.UPLOAD_REQUEST_LIMIT || 5
 
 /* Request expired time in hours */
-const REQUEST_EXPIRED_IN_HOURS = process.env.REQUEST_EXPIRED_IN_HOURS || 24
+const REQUEST_EXPIRED_IN_HOURS = process.env.REQUEST_EXPIRED_IN_HOURS || 10
 
 
 module.exports = {
     currentHost,
     FILE_UPLOAD_DIRECTORY,
-    DAILY_REQUEST_LIMIT,
+    DOWNLOAD_REQUEST_LIMIT,
+    UPLOAD_REQUEST_LIMIT,
     REQUEST_EXPIRED_IN_HOURS
 }

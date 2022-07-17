@@ -8,13 +8,18 @@ const requestLimitSchema = new Schema({
         unique: true,
         trim: true
     },
+    request_for: {
+        type: String,
+        default: "download",
+        enum: ["download", "upload"]
+    },
     request_exp_timestamp: {
         type: Number,
-        required:true
+        required: true
     },
     request_count: {
         type: Number,
-        required:true
+        required: true
     }
 })
 
