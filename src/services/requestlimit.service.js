@@ -1,5 +1,5 @@
 
-const DailyLimit = require("../models/dailylimit.model")
+const DailyLimit = require("../models/requestlimit.model")
 const { DAILY_FILE_DOWNLOAD_LIMIT } = require("../helpers")
 
 /* Create daily download limit */

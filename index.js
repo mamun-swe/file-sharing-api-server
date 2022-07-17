@@ -113,18 +113,6 @@ if (cluster.isMaster) {
             }
         })
 
-    const iat = 1658058449749
-    const parseIat = new Date(iat)
-
-    const exp = iat + (1000 * 60 * 10)
-    const parseExp = new Date(exp)
-
-    console.log("Iat is: " + parseIat)
-    console.log("Exp is: " + exp)
-
-    // Iat is: Sun Jul 17 2022 17: 47: 29 GMT + 0600(Bangladesh Standard Time)
-    // Exp is: Sun Jul 17 2022 17: 57: 29 GMT + 0600(Bangladesh Standard Time)
-
     /* Run application via port */
     app.listen(PORT, () => {
         console.log(`App running on http://localhost:${PORT}`)
