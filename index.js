@@ -12,6 +12,7 @@ const bodyParser = require("body-parser")
 const compression = require("compression")
 const fileUpload = require("express-fileupload")
 const { router } = require("./src/routes")
+const { cleanupCornJob } = require("./src/services/corn-job.service")
 const { FILE_UPLOAD_DIRECTORY } = require("./src/helpers")
 
 dotenv.config()
@@ -44,6 +45,9 @@ if (cluster.isMaster) {
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(nocache())
+
+    /* Cleanup corn job */
+    cleanupCornJob.start()
 
     /* Bind file upload directory */
     app.use(`/${FILE_UPLOAD_DIRECTORY}`, express.static(`${FILE_UPLOAD_DIRECTORY}/`))
