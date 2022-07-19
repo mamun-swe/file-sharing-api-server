@@ -19,6 +19,10 @@ const fileSchema = new Schema({
         required: true,
         unique: true,
         trim: true
+    },
+    last_download_timestamp: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true

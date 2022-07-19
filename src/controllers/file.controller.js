@@ -15,7 +15,7 @@ const Index = async (req, res, next) => {
         /* file fetch from database */
         const result = await File.findOne(
             { publicKey },
-            { filename: 1, publicKey: 1 }
+            { filename: 1, publicKey: 1, last_download_timestamp: 1 }
         )
 
         /* Modify result */
@@ -25,6 +25,12 @@ const Index = async (req, res, next) => {
                 download_url: currentHost(req) + FILE_UPLOAD_DIRECTORY + "/" + result.filename
             }
         }
+
+        /* Update current time to download timestmp */
+        await File.findOneAndUpdate(
+            { publicKey },
+            { $set: { last_download_timestamp: Date.now() } }
+        )
 
         /* Send success response to user with data */
         res.status(200).json({
