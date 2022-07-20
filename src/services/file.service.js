@@ -1,52 +1,55 @@
 
-const fs = require("fs")
-const { FILE_UPLOAD_DIRECTORY } = require("../helpers")
+const File = require("../models/file.model")
 
-/* File upload to directory */
-const fileUpload = async (data) => {
+/* FindOne file from database */
+const findOneFile = async (key, items) => {
     try {
-        const file = data
-
-        /* Create directory if not available */
-        if (!fs.existsSync(FILE_UPLOAD_DIRECTORY)) {
-            fs.mkdirSync(FILE_UPLOAD_DIRECTORY)
-        }
-
-        /* Change file name to unique name */
-        const fileExtension = file.name.split('.')[1]
-        const renamedFile = Date.now() + '.' + fileExtension
-
-        /* File upload path generate */
-        const uploadPath = FILE_UPLOAD_DIRECTORY + "/" + renamedFile
-
-        /* Move file to directory */
-        const moveFile = file.mv(uploadPath)
-
-        if (moveFile) return renamedFile
+        const result = await File.findOne({ ...key }, { ...items })
+        return result
     } catch (error) {
-        if (error) {
-            console.log(error)
-            return false
-        }
+        if (error) throw error
     }
 }
 
-/* File delete from directory */
-const fileRemove = async (data) => {
+/* Create new file */
+const createNewFile = async (filename, publicKey, privateKey) => {
+    try {
+        const newFile = new File({
+            filename,
+            publicKey,
+            privateKey
+        })
 
-    /* file destionation with file name */
-    const destination = FILE_UPLOAD_DIRECTORY + "/" + data
+        await newFile.save()
+        return newFile
+    } catch (error) {
+        if (error) throw error
+    }
+}
 
-    /* Delete file from destionation */
-    fs.unlink(destination, function (error) {
-        if (error) {
-            return false
-        }
-        return true
-    })
+/* findOneAndUpdate file to database */
+const findOneAndUpdateFile = async (key, values) => {
+    try {
+        const result = await File.findOneAndUpdate({ ...key }, { $set: { ...values } })
+        return result
+    } catch (error) {
+        if (error) throw error
+    }
+}
+
+/* Delete file */
+const findOneAndDeleteFile = async (key) => {
+    try {
+        const result = await File.findOneAndDelete({ key })
+        return result
+    } catch (error) {
+        if (error) throw error
+    }
 }
 
 module.exports = {
-    fileUpload,
-    fileRemove
+    findOneFile,
+    createNewFile,
+    findOneAndUpdateFile,
+    findOneAndDeleteFile
 }

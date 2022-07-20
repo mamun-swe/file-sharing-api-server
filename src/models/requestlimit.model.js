@@ -5,7 +5,6 @@ const requestLimitSchema = new Schema({
     ip: {
         type: String,
         required: true,
-        unique: true,
         trim: true
     },
     request_for: {

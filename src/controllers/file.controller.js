@@ -1,10 +1,21 @@
 
-const File = require("../models/file.model")
 const { validator } = require("../validators")
 const { currentHost } = require("../helpers")
-const { fileUpload, fileRemove } = require("../services/file.service")
-const { generatePublicKey, generatePrivateKey } = require("../services/key.service")
-const { FILE_UPLOAD_DIRECTORY } = require("../helpers")
+const {
+    fileUpload,
+    fileRemove,
+    FILE_UPLOAD_DIRECTORY
+} = require("../helpers")
+const {
+    generatePublicKey,
+    generatePrivateKey
+} = require("../services/key.service")
+const {
+    findOneFile,
+    createNewFile,
+    findOneAndUpdateFile,
+    findOneAndDeleteFile
+} = require("../services/file.service")
 
 /* Get specific resource */
 const Index = async (req, res, next) => {
@@ -12,11 +23,8 @@ const Index = async (req, res, next) => {
         let data = null
         const { publicKey } = req.params
 
-        /* file fetch from database */
-        const result = await File.findOne(
-            { publicKey },
-            { filename: 1, publicKey: 1, last_download_timestamp: 1 }
-        )
+        /* Find file */
+        const result = await findOneFile({ publicKey }, { filename: 1, publicKey: 1, last_download_timestamp: 1 })
 
         /* Modify result */
         if (result) {
@@ -27,10 +35,7 @@ const Index = async (req, res, next) => {
         }
 
         /* Update current time to download timestmp */
-        await File.findOneAndUpdate(
-            { publicKey },
-            { $set: { last_download_timestamp: Date.now() } }
-        )
+        await findOneAndUpdateFile({ publicKey }, { last_download_timestamp: Date.now() })
 
         /* Send success response to user with data */
         res.status(200).json({
@@ -75,13 +80,7 @@ const Store = async (req, res, next) => {
         const privateKey = await generatePrivateKey()
 
         /* Store file info to database */
-        const newFile = new File({
-            filename: isUploadedFile,
-            publicKey,
-            privateKey
-        })
-
-        await newFile.save()
+        await createNewFile(isUploadedFile, publicKey, privateKey)
 
         /* Send success response */
         res.status(201).json({
@@ -106,7 +105,7 @@ const Destroy = async (req, res, next) => {
         const { privateKey } = req.params
 
         /* Fetch file info from database */
-        const result = await File.findOne({ privateKey })
+        const result = await findOneFile({ privateKey })
         if (!result) {
             return res.status(404).json({
                 status: false,
@@ -128,7 +127,7 @@ const Destroy = async (req, res, next) => {
         }
 
         /* Delete file info from server */
-        await File.findOneAndDelete({ privateKey })
+        await findOneAndDeleteFile({ privateKey })
 
         /* Send success response to user */
         res.status(200).json({
