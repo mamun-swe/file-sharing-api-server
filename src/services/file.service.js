@@ -4,7 +4,10 @@ const File = require("../models/file.model")
 /* FindOne file from database */
 const findOneFile = async (key, items) => {
     try {
+        console.log("key ", key);
+        console.log("items ", items);
         const result = await File.findOne({ ...key }, { ...items })
+        console.log("result sdfsadf ", result);
         return result
     } catch (error) {
         if (error) throw error

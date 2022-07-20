@@ -6,8 +6,8 @@ const {
     uploadRequestLimit
 } = require("../middlewares/requestlimit.middleware")
 
-fileRouter.post("/", uploadRequestLimit, fileController.Store)
-fileRouter.get("/:publicKey", downloadRequestLimit, fileController.Index)
+fileRouter.post("/", fileController.Store)
+fileRouter.get("/:publicKey", fileController.Index)
 fileRouter.delete("/:privateKey", fileController.Destroy)
 
 module.exports = { fileRouter }
