@@ -2,7 +2,7 @@
 const { app } = require("./app")
 const { cpus } = require("os")
 const cluster = require("cluster")
-const { dbConnection } = require("./src/config/db.config")
+const { dbConnection } = require("./config/db.config")
 
 const numCPUs = cpus().length
 const PORT = process.env.APP_PORT || 5000

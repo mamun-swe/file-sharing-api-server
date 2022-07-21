@@ -7,10 +7,10 @@ const nocache = require("nocache")
 const bodyParser = require("body-parser")
 const compression = require("compression")
 const fileUpload = require("express-fileupload")
-const { router } = require("./src/routes")
-const { cleanupCornJob } = require("./src/services/corn-job.service")
-const { middlewares } = require("./src/middlewares")
-const { FILE_UPLOAD_DIRECTORY } = require("./src/helpers")
+const { router } = require("./routes")
+const { cleanupCornJob } = require("./services/corn-job.service")
+const { middlewares } = require("./middlewares")
+const { FILE_UPLOAD_DIRECTORY } = require("./helpers")
 
 dotenv.config()
 
@@ -45,6 +45,6 @@ app.use((req, res, next) => {
 })
 
 /* Error handelling middleware registration */
-app.use(middlewares.errorHandeller)
+app.use(middlewares.ErrorHandeller.errorHandeller)
 
 module.exports = { app }

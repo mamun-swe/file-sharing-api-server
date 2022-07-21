@@ -1,16 +1,11 @@
 
 const request = require("supertest")
 const FormData = require("form-data")
-const { app } = require("../../app")
+const { app } = require("../src/app")
 
-// jest.mock("../services/file-mock.service.js")
-const {
-    extractFileNameFromUrl,
-    REQUEST_EXPIRED_IN_HOURS
-} = require("../helpers")
+jest.mock("../src/services/file.service")
 
-
-beforeAll(async() => {
+beforeAll(async () => {
     console.log("Executing before all test");
 })
 
@@ -21,33 +16,33 @@ afterAll(async () => {
 describe("File get query tests", () => {
 
     it("GET file query test", async () => {
-        const response = await request(app).get("/api/v1/files/d90ffcd3-8bbc-4b4a-83ab-832859746e51")
+        const response = await request(app).get("/api/v1/files/54bb8acd-dd21-473d-b020-41709ac89e6a")
 
-        expect(response.statusCode).toBe(200)
+        console.log(response.body);
         expect(response.body.status).toEqual(true)
-        expect(response.body.data.publicKey).toEqual("d90ffcd3-8bbc-4b4a-83ab-832859746e51")
-        expect(extractFileNameFromUrl(response.body.data.download_url)).toEqual("1658384926078.png")
+        expect(response.body.data.publicKey).toEqual("54bb8acd-dd21-473d-b020-41709ac89e6a")
+        expect(response.body.data.download_url).toEqual("1658387326134.png")
     }, 30000)
 
 
-    it("POST file query test", async () => {
-        const response = await request(app).get("/api/v1/files")
+    // it("POST file query test", async () => {
+    //     const response = await request(app).get("/api/v1/files")
 
-        expect(response.statusCode).toBe(200)
-        expect(response.body.status).toEqual(true)
-        expect(response.body.data.publicKey).toEqual("d90ffcd3-8bbc-4b4a-83ab-832859746e51")
-        expect(extractFileNameFromUrl(response.body.data.download_url)).toEqual("1658384926078.png")
-    }, 30000)
+    //     expect(response.statusCode).toBe(200)
+    //     expect(response.body.status).toEqual(true)
+    //     expect(response.body.data.publicKey).toEqual("d90ffcd3-8bbc-4b4a-83ab-832859746e51")
+    //     expect(extractFileNameFromUrl(response.body.data.download_url)).toEqual("1658384926078.png")
+    // }, 30000)
 
-    
-    it("DELETE file query test", async () => {
-        const response = await request(app).get("/api/v1/files/d90ffcd3-8bbc-4b4a-83ab-832859746e51")
 
-        expect(response.statusCode).toBe(200)
-        expect(response.body.status).toEqual(true)
-        expect(response.body.data.publicKey).toEqual("d90ffcd3-8bbc-4b4a-83ab-832859746e51")
-        expect(extractFileNameFromUrl(response.body.data.download_url)).toEqual("1658384926078.png")
-    }, 30000)
+    // it("DELETE file query test", async () => {
+    //     const response = await request(app).get("/api/v1/files/d90ffcd3-8bbc-4b4a-83ab-832859746e51")
+
+    //     expect(response.statusCode).toBe(200)
+    //     expect(response.body.status).toEqual(true)
+    //     expect(response.body.data.publicKey).toEqual("d90ffcd3-8bbc-4b4a-83ab-832859746e51")
+    //     expect(extractFileNameFromUrl(response.body.data.download_url)).toEqual("1658384926078.png")
+    // }, 30000)
 
 })
 

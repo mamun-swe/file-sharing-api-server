@@ -105,7 +105,7 @@ const Destroy = async (req, res, next) => {
         const { privateKey } = req.params
 
         /* Fetch file info from database */
-        const result = await findOneFile({ privateKey })
+        const result = await findOneFile({ privateKey }, {})
         if (!result) {
             return res.status(404).json({
                 status: false,
