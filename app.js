@@ -8,8 +8,8 @@ const bodyParser = require("body-parser")
 const compression = require("compression")
 const fileUpload = require("express-fileupload")
 const { router } = require("./src/routes")
-const { dbConnection } = require("./src/config/db.config")
 const { cleanupCornJob } = require("./src/services/corn-job.service")
+const { middlewares } = require("./src/middlewares")
 const { FILE_UPLOAD_DIRECTORY } = require("./src/helpers")
 
 dotenv.config()
@@ -44,44 +44,7 @@ app.use((req, res, next) => {
     next(error)
 })
 
-/* Error handelling */
-app.use((error, req, res, next) => {
-    if (error.status === 404) {
-        return res.status(404).json({
-            status: false,
-            errors: {
-                message: error.message
-            }
-        })
-    }
-
-    if (error.status === 400) {
-        return res.status(400).json({
-            status: false,
-            errors: {
-                message: "Bad request."
-            }
-        })
-    }
-
-    if (error.status === 401) {
-        return res.status(401).json({
-            status: false,
-            errors: {
-                message: "You have no permission."
-            }
-        })
-    }
-
-    return res.status(500).json({
-        status: false,
-        errors: {
-            message: "Internal server error."
-        }
-    })
-})
-
-/* Establish database connection */
-dbConnection()
+/* Error handelling middleware registration */
+app.use(middlewares.errorHandeller)
 
 module.exports = { app }

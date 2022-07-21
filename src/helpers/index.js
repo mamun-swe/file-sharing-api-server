@@ -18,6 +18,8 @@ const fileUpload = async (data) => {
     try {
         const file = data
 
+        console.log(data);
+
         /* Create directory if not available */
         if (!fs.existsSync(FILE_UPLOAD_DIRECTORY)) {
             fs.mkdirSync(FILE_UPLOAD_DIRECTORY)
@@ -33,7 +35,12 @@ const fileUpload = async (data) => {
         /* Move file to directory */
         const moveFile = file.mv(uploadPath)
 
-        if (moveFile) return renamedFile
+        if (moveFile) {
+            return {
+                uploaded: "OK",
+                filename: renamedFile
+            }
+        }
     } catch (error) {
         if (error) {
             console.log(error)
@@ -58,7 +65,7 @@ const fileRemove = async (data) => {
 }
 
 /* Database URI */
-const DATABASE_URI = process.env.DB_URI
+const DATABASE_URI = process.env.DB_URI || "mongodb+srv://mamun_swe:KG1UciyRKg0ZcJTG@cluster0-lkz2b.mongodb.net/file-sharing-server-test?retryWrites=true&w=majority"
 
 /* File upload directory */
 const FILE_UPLOAD_DIRECTORY = process.env.FOLDER || "uploads"

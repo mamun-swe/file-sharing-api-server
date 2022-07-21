@@ -6,8 +6,12 @@ const { DATABASE_URI } = require("../helpers")
 const dbConnection = async () => {
     try {
         console.log("Database connecting...")
-        
-        await mongoose.connect(DATABASE_URI)
+
+        await mongoose.connect(DATABASE_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            autoIndex: false
+        })
 
         console.log("Database connection established.")
     } catch (error) {

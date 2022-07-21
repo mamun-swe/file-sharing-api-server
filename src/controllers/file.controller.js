@@ -80,7 +80,7 @@ const Store = async (req, res, next) => {
         const privateKey = await generatePrivateKey()
 
         /* Store file info to database */
-        await createNewFile(isUploadedFile, publicKey, privateKey)
+        await createNewFile(isUploadedFile.filename, publicKey, privateKey)
 
         /* Send success response */
         res.status(201).json({

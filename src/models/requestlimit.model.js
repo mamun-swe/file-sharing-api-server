@@ -2,7 +2,7 @@
 const { Schema, model } = require("mongoose")
 
 const requestLimitSchema = new Schema({
-    ip: {
+    request_ip: {
         type: String,
         required: true,
         trim: true

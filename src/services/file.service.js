@@ -4,11 +4,7 @@ const File = require("../models/file.model")
 /* FindOne file from database */
 const findOneFile = async (key, items) => {
     try {
-        console.log("key ", key);
-        console.log("items ", items);
-        const result = await File.findOne({ ...key }, { ...items })
-        console.log("result sdfsadf ", result);
-        return result
+        return await File.findOne({ ...key }, { ...items })
     } catch (error) {
         if (error) throw error
     }
@@ -23,8 +19,7 @@ const createNewFile = async (filename, publicKey, privateKey) => {
             privateKey
         })
 
-        await newFile.save()
-        return newFile
+        return await newFile.save()
     } catch (error) {
         if (error) throw error
     }
@@ -33,8 +28,7 @@ const createNewFile = async (filename, publicKey, privateKey) => {
 /* findOneAndUpdate file to database */
 const findOneAndUpdateFile = async (key, values) => {
     try {
-        const result = await File.findOneAndUpdate({ ...key }, { $set: { ...values } })
-        return result
+        return await File.findOneAndUpdate({ ...key }, { $set: { ...values } })
     } catch (error) {
         if (error) throw error
     }
@@ -43,8 +37,16 @@ const findOneAndUpdateFile = async (key, values) => {
 /* Delete file */
 const findOneAndDeleteFile = async (key) => {
     try {
-        const result = await File.findOneAndDelete({ key })
-        return result
+        return await File.findOneAndDelete({ key })
+    } catch (error) {
+        if (error) throw error
+    }
+}
+
+/* Delete all files */
+const deleteAllFile = async () => {
+    try {
+        return await File.deleteMany({})
     } catch (error) {
         if (error) throw error
     }
@@ -54,5 +56,6 @@ module.exports = {
     findOneFile,
     createNewFile,
     findOneAndUpdateFile,
-    findOneAndDeleteFile
+    findOneAndDeleteFile,
+    deleteAllFile
 }

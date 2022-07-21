@@ -18,14 +18,14 @@ const downloadRequestLimit = async (req, res, next) => {
         /* if no record is found, create a new record for user and store to db collection */
         const record = await RequestLimit.findOne({
             $and: [
-                { ip },
+                { request_ip: ip },
                 { request_for: "download" }
             ]
         })
 
         if (!record) {
             const newRequestLimit = new RequestLimit({
-                ip,
+                request_ip: ip,
                 request_for: "download",
                 request_exp_timestamp: expiredTimestamp,
                 request_count: 1
@@ -39,7 +39,7 @@ const downloadRequestLimit = async (req, res, next) => {
         if (currentRequestTime > record.request_exp_timestamp) {
             await RequestLimit.findOneAndUpdate({
                 $and: [
-                    { ip },
+                    { request_ip: ip },
                     { request_for: "download" }
                 ]
             },
@@ -57,7 +57,7 @@ const downloadRequestLimit = async (req, res, next) => {
                 await RequestLimit.findOneAndUpdate(
                     {
                         $and: [
-                            { ip },
+                            { request_ip: ip },
                             { request_for: "download" }
                         ]
                     },
@@ -95,14 +95,14 @@ const uploadRequestLimit = async (req, res, next) => {
         /* if no record is found, create a new record for user and store to db collection */
         const record = await RequestLimit.findOne({
             $and: [
-                { ip },
+                { request_ip: ip },
                 { request_for: "upload" }
             ]
         })
 
         if (!record) {
             const newRequestLimit = new RequestLimit({
-                ip,
+                request_ip: ip,
                 request_for: "upload",
                 request_exp_timestamp: expiredTimestamp,
                 request_count: 1
@@ -116,7 +116,7 @@ const uploadRequestLimit = async (req, res, next) => {
         if (currentRequestTime > record.request_exp_timestamp) {
             await RequestLimit.findOneAndUpdate({
                 $and: [
-                    { ip },
+                    { request_ip: ip },
                     { request_for: "upload" }
                 ]
             },
@@ -134,7 +134,7 @@ const uploadRequestLimit = async (req, res, next) => {
                 await RequestLimit.findOneAndUpdate(
                     {
                         $and: [
-                            { ip },
+                            { request_ip: ip },
                             { request_for: "upload" }
                         ]
                     },
