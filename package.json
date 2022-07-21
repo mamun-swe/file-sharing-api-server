@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "test": "jest --runInBand --force-exit"
+    "dev": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -40,9 +39,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "form-data": "^4.0.0",
-    "jest": "^28.1.3",
-    "nodemon": "^2.0.19",
-    "supertest": "^6.2.4"
+    "nodemon": "^2.0.19"
   }
 }
