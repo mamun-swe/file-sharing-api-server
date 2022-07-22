@@ -6,13 +6,6 @@ const currentHost = (req) => {
     return "http://" + req.get("host") + "/"
 }
 
-/* Extract filename from url */
-const extractFileNameFromUrl = (fileUrlPath) => {
-    const itemsArray = fileUrlPath.split("/")
-    const fileName = itemsArray[itemsArray.length - 1]
-    return fileName
-}
-
 /* File upload to directory */
 const fileUpload = async (data) => {
     try {
@@ -80,7 +73,6 @@ const REQUEST_EXPIRED_IN_HOURS = process.env.REQUEST_EXPIRED_IN_HOURS || 10
 
 module.exports = {
     currentHost,
-    extractFileNameFromUrl,
     fileUpload,
     fileRemove,
     DATABASE_URI,

@@ -7,12 +7,11 @@ const nocache = require("nocache")
 const bodyParser = require("body-parser")
 const compression = require("compression")
 const fileUpload = require("express-fileupload")
+dotenv.config()
 const { router } = require("./routes")
 const { middlewares } = require("./middlewares")
 const { cleanupCornJob } = require("./services/corn-job.service")
 const { FILE_UPLOAD_DIRECTORY } = require("./helpers")
-
-dotenv.config()
 
 const app = express()
 app.use(compression())
