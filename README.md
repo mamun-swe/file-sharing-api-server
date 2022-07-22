@@ -19,5 +19,5 @@ npm run dev
 ```bash
 npm start
 ```
-6. Browse Postman collection API Documentation[https://documenter.getpostman.com/view/5909130/UzR1M3qm) with your browser to see the result.
+6. Browse Postman collection API Documentation [https://documenter.getpostman.com/view/5909130/UzR1M3qm] with your browser to see the result.
     
