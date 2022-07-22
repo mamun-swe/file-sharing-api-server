@@ -10,7 +10,10 @@ git clone https://github.com/Mamun-swe/file-sharing-api-server
 npm install
 ```
 3. Create a .env file to the application root and copy all fields from the .env.example file.       
-    * Add your MongoDB database URI to the.env file to DB_URI variable.
+    * Add your MongoDB dev database URI to the.env file as DB_URI
+    * Add MongoDB test database URI as TEST_DB_URI
+    * Use ENVIRONMENT as TEST before running the test case.
+    * Use ENVIRONMENT as DEV before running the application. 
 
 4. Test the application.
 ```bash
