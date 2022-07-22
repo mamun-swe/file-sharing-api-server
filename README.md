@@ -9,7 +9,8 @@ git clone https://github.com/Mamun-swe/file-sharing-api-server
 ```bash
 npm install
 ```
-3. Create a .env file to the application root and copy all fields from the .env.example file.       * Add your MongoDB database URI to the .env file
+3. Create a .env file to the application root and copy all fields from the .env.example file.       
+    * Add your MongoDB database URI to the .env file
 4. Run the application in dev mode.
 ```bash
 npm run dev
@@ -18,3 +19,5 @@ npm run dev
 ```bash
 npm start
 ```
+6. Browse Postman collection API Documentation[https://documenter.getpostman.com/view/5909130/UzR1M3qm) with your browser to see the result.
+    
