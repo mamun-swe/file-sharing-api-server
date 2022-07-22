@@ -8,7 +8,7 @@ const dbConnection = async () => {
         const PROD_DB_URI = process.env.DB_URI
         const TEST_DB_URI = process.env.TEST_DB_URI
 
-        const DB_URI = process.env.ENVIRONMENT = "TEST" ? TEST_DB_URI : PROD_DB_URI
+        const DB_URI = process.env.ENVIRONMENT === "TEST" ? TEST_DB_URI : PROD_DB_URI
 
         console.log("Database connecting...")
         await mongoose.connect(DB_URI, {
